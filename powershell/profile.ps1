@@ -1,3 +1,7 @@
+$IS_RUNNING_SILENT = $args -contains "-SilenceProfile"
+
+echo $IS_RUNNING_SILENT
+
 function CheckIfInstalled($module_name) {
     try {
         Import-Module $module_name -ErrorAction Stop
