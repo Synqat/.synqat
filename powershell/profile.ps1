@@ -39,7 +39,7 @@ CheckIfInstalled "Terminal-Icons"
 CheckIfInstalled "PSFzf"
 
 # Load prompt config
-$PROMPT_CONFIG = 'https://raw.githubusercontent.com/Synqat/.config/main/powershell/omp.json'
+$PROMPT_CONFIG = Join-Path $PROFILE '..' 'omp.json'
 oh-my-posh --init --shell pwsh --config $PROMPT_CONFIG | Invoke-Expression
 if (-not $IS_RUNNING_SILENT) {
     Write-Host "oh-my-posh config loaded." -ForegroundColor Green
@@ -47,7 +47,7 @@ if (-not $IS_RUNNING_SILENT) {
 
 # PSReadLine
 Set-PSReadLineOption -EditMode Emacs
-Set-PSReadLineOption -BellStyle None
+Set-PSReadLineOption -BellStyle Audible
 Set-PSReadLineKeyHandler -Chord 'Ctrl+d' -Function DeleteChar
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle ListView
@@ -68,6 +68,7 @@ Set-Alias rm rimraf
 Set-Alias vim nvim
 Set-Alias ll ls
 Set-Alias g git
+Set-Alias i init
 Set-Alias grep findstr
 Set-Alias tig 'C:\Program Files\Git\usr\bin\tig.exe'
 Set-Alias less 'C:\Program Files\Git\usr\bin\less.exe'
@@ -82,4 +83,16 @@ function gimme ($command) {
 }
 if (-not $IS_RUNNING_SILENT) {
     Write-Host "Command 'gimme' loaded." -ForegroundColor Green
+}
+
+function init ($fileOrPath) {
+    if (Test-Path $fileOrPath) {
+        Write-Host "$fileOrPath already exists." -ForegroundColor Red
+    } else {
+        New-Item -Path $fileOrPath -ItemType File -Force | Out-Null
+        Write-Host "Initialized $fileOrPath" -ForegroundColor Green
+    }
+}
+if (-not $IS_RUNNING_SILENT) {
+    Write-Host "Command 'init' loaded." -ForegroundColor Green
 }

@@ -1,3 +1,9 @@
+SetEnvPathForCommand "nvim" "C:\Program Files\Neovim\bin"
+SetEnvPathForCommand "fzf" "$env:USERPROFILE\.fzf"
+
+$PROMPT_CONFIG = Join-Path './' 'powershell' 'omp.json'
+$PROMPT_PROFILE = Join-Path './' 'powershell' 'profile.ps1'
+
 function CheckIfInstalled($module_name) {
     try {
         Import-Module $module_name -ErrorAction Stop
@@ -30,6 +36,7 @@ function TryInstallModule($module_name) {
 function TryInstallNerdFonts() {
     try {
         Write-Host "Installing a Nerd Font..." -ForegroundColor Yellow
+        # install a nerd font to be used by powershell and oh-my-posh
         oh-my-posh font install
         Write-Host "Nerd Font is installed" -ForegroundColor Green
     } catch {
@@ -68,12 +75,6 @@ function TryInstallNeoVim() {
         }
     }
 }
-
-SetEnvPathForCommand "nvim" "C:\Program Files\Neovim\bin"
-SetEnvPathForCommand "fzf" "$env:USERPROFILE\.fzf"
-
-$PROMPT_CONFIG = Join-Path './' 'powershell' 'omp.json'
-$PROMPT_PROFILE = Join-Path './' 'powershell' 'profile.ps1'
 
 # download fzf binary and add it to PATH
 if (!(Test-Path $env:USERPROFILE\.fzf)) {
